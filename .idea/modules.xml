@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/winfo-auth2-server/winfo-auth2-server.iml" filepath="$PROJECT_DIR$/winfo-auth2-server/winfo-auth2-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-cloud.iml" filepath="$PROJECT_DIR$/winfo-cloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-common/winfo-common.iml" filepath="$PROJECT_DIR$/winfo-common/winfo-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-common/winfo-common-core/winfo-common-core.iml" filepath="$PROJECT_DIR$/winfo-common/winfo-common-core/winfo-common-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-common/winfo-common-datasource/winfo-common-datasource.iml" filepath="$PROJECT_DIR$/winfo-common/winfo-common-datasource/winfo-common-datasource.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-common/winfo-common-executor/winfo-common-executor.iml" filepath="$PROJECT_DIR$/winfo-common/winfo-common-executor/winfo-common-executor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-common/winfo-common-i18n/winfo-common-i18n.iml" filepath="$PROJECT_DIR$/winfo-common/winfo-common-i18n/winfo-common-i18n.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-common/winfo-common-log/winfo-common-log.iml" filepath="$PROJECT_DIR$/winfo-common/winfo-common-log/winfo-common-log.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-common/winfo-common-log/winfo-common-log-aop/winfo-common-log-aop.iml" filepath="$PROJECT_DIR$/winfo-common/winfo-common-log/winfo-common-log-aop/winfo-common-log-aop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-common/winfo-common-quartz/winfo-common-quartz.iml" filepath="$PROJECT_DIR$/winfo-common/winfo-common-quartz/winfo-common-quartz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-common/winfo-common-redis/winfo-common-redis.iml" filepath="$PROJECT_DIR$/winfo-common/winfo-common-redis/winfo-common-redis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-common/winfo-common-swagger/winfo-common-swagger.iml" filepath="$PROJECT_DIR$/winfo-common/winfo-common-swagger/winfo-common-swagger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-drools/winfo-drools.iml" filepath="$PROJECT_DIR$/winfo-drools/winfo-drools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-model/winfo-model.iml" filepath="$PROJECT_DIR$/winfo-model/winfo-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-oauth2-server/winfo-oauth2-server.iml" filepath="$PROJECT_DIR$/winfo-oauth2-server/winfo-oauth2-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winfo-xxl-job-admin/xxl-job-admin.iml" filepath="$PROJECT_DIR$/winfo-xxl-job-admin/xxl-job-admin.iml" />
+    </modules>
+  </component>
+</project>

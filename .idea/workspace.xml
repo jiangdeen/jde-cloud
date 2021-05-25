@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9b3cc65c-334e-434d-8da0-be788e746d0e" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="AnnotationType" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="alwaysUpdateSnapshots" value="true" />
+        <option name="localRepository" value="E:\apache-maven-3.6.0\repository" />
+        <option name="mavenHome" value="E:/apache-maven-3.6.0" />
+        <option name="userSettingsFile" value="E:\apache-maven-3.6.0\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1qsU8oUb9R12audXiCzgPrclDag" />
+  <component name="PropertiesComponent">
+    <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/winfo-drools/src/test/java/cc/winfo/drools" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\jde-work\winfo-cloud\winfo-shiro\shiro-login\src\main\java\cc\winfo\user\mapper" />
+      <recent name="E:\jde-work\winfo-demo\common-core\core-validator\src\main\resources" />
+      <recent name="E:\jde-work\winfo-demo\common-core\core-validator\src\main" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="cc.winfo.drools.utils" />
+      <recent name="cc.winfo.drools.globa" />
+      <recent name="cc.winfo.drools.config" />
+      <recent name="cc.winfo.oauth2.server.config" />
+      <recent name="cc.winfo.oauth2.server.authority" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\jde-work\winfo-cloud\winfo-drools\src\test\java\cc\winfo\drools" />
+      <recent name="E:\jde-work\winfo-cloud\winfo-drools\src\main\resources" />
+      <recent name="E:\jde-work\winfo-cloud\winfo-drools\src\main\java\cc\winfo\drools\bean" />
+      <recent name="E:\jde-work\winfo-cloud\winfo-oauth2-server\src\main\java\cc\winfo\oauth2\server" />
+      <recent name="E:\jde-work\winfo-cloud\winfo-common\winfo-common-executor\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.DroolsApplicationTests.cat">
+    <configuration name="DroolsApplicationTests.cat" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="winfo-drools" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cc.winfo.drools.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cc.winfo.drools" />
+      <option name="MAIN_CLASS_NAME" value="cc.winfo.drools.DroolsApplicationTests" />
+      <option name="METHOD_NAME" value="cat" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DroolsApplicationTests.from" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="winfo-drools" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cc.winfo.drools.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cc.winfo.drools" />
+      <option name="MAIN_CLASS_NAME" value="cc.winfo.drools.DroolsApplicationTests" />
+      <option name="METHOD_NAME" value="from" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RhsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="winfo-drools" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cc.winfo.drools.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cc.winfo.drools" />
+      <option name="MAIN_CLASS_NAME" value="cc.winfo.drools.RhsTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RhsTest.update" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="winfo-drools" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cc.winfo.drools.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cc.winfo.drools" />
+      <option name="MAIN_CLASS_NAME" value="cc.winfo.drools.RhsTest" />
+      <option name="METHOD_NAME" value="update" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Oauth2ServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="winfo-oauth2-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cc.winfo.oauth2.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cc.winfo.oauth2.server.Oauth2ServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="XxlJobAdminApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="xxl-job-admin" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.xxl.job.admin.XxlJobAdminApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.DroolsApplicationTests.cat" />
+        <item itemvalue="JUnit.DroolsApplicationTests.from" />
+        <item itemvalue="JUnit.RhsTest.update" />
+        <item itemvalue="JUnit.RhsTest" />
+        <item itemvalue="Spring Boot.Oauth2ServerApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <option name="contentProportion" value="0.18306011" />
+        <treeState>
+          <expand />
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9b3cc65c-334e-434d-8da0-be788e746d0e" name="Default Changelist" comment="" />
+      <created>1617867634335</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1617867634335</updated>
+      <workItem from="1617867635650" duration="14778000" />
+      <workItem from="1618189859000" duration="593000" />
+      <workItem from="1618231369484" duration="23753000" />
+      <workItem from="1618448813973" duration="11798000" />
+      <workItem from="1618500347226" duration="596000" />
+      <workItem from="1618501647774" duration="5883000" />
+      <workItem from="1618802117885" duration="6685000" />
+      <workItem from="1618887033078" duration="18336000" />
+      <workItem from="1618993286058" duration="34679000" />
+      <workItem from="1619141820411" duration="28110000" />
+      <workItem from="1619321695560" duration="5666000" />
+      <workItem from="1619342741658" duration="2967000" />
+      <workItem from="1619346913333" duration="3812000" />
+      <workItem from="1619405921778" duration="7537000" />
+      <workItem from="1619417775928" duration="4718000" />
+      <workItem from="1619486034296" duration="29776000" />
+      <workItem from="1619601079452" duration="3985000" />
+      <workItem from="1619750637743" duration="1796000" />
+      <workItem from="1620263073123" duration="3642000" />
+      <workItem from="1620460880236" duration="598000" />
+      <workItem from="1620623327798" duration="14254000" />
+      <workItem from="1621407367244" duration="7185000" />
+      <workItem from="1621414893478" duration="23458000" />
+      <workItem from="1621499784035" duration="1184000" />
+      <workItem from="1621590201603" duration="2544000" />
+      <workItem from="1621825977378" duration="1111000" />
+      <workItem from="1621850436682" duration="7107000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/common-core/core-nacos/src/main/java/cc/winfo/nacos/controller/configController.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/2.3.7.RELEASE/spring-boot-autoconfigure-2.3.7.RELEASE-sources.jar!/org/springframework/boot/autoconfigure/jdbc/DataSourceProperties.java</url>
+          <line>175</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/winfo-shiro/shiro-login/src/main/java/cc/winfo/user/shiro/JwtRealm.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/winfo-auth2-server/src/main/java/cc/winfo/auth2/server/handler/UserAuthenticationSuccessHandler.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/security/oauth/spring-security-oauth2/2.3.6.RELEASE/spring-security-oauth2-2.3.6.RELEASE-sources.jar!/org/springframework/security/oauth2/provider/endpoint/TokenEndpoint.java</url>
+          <line>89</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/security/oauth/spring-security-oauth2/2.3.6.RELEASE/spring-security-oauth2-2.3.6.RELEASE-sources.jar!/org/springframework/security/oauth2/config/annotation/web/configurers/AuthorizationServerEndpointsConfigurer.java</url>
+          <line>579</line>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/security/oauth/spring-security-oauth2/2.3.6.RELEASE/spring-security-oauth2-2.3.6.RELEASE-sources.jar!/org/springframework/security/oauth2/provider/code/AuthorizationCodeTokenGranter.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="73" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/security/oauth/spring-security-oauth2/2.3.6.RELEASE/spring-security-oauth2-2.3.6.RELEASE-sources.jar!/org/springframework/security/oauth2/provider/endpoint/AuthorizationEndpoint.java</url>
+          <line>227</line>
+          <option name="timeStamp" value="76" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/security/oauth/spring-security-oauth2/2.3.6.RELEASE/spring-security-oauth2-2.3.6.RELEASE-sources.jar!/org/springframework/security/oauth2/provider/endpoint/AuthorizationEndpoint.java</url>
+          <line>127</line>
+          <option name="timeStamp" value="83" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/security/oauth/spring-security-oauth2/2.3.6.RELEASE/spring-security-oauth2-2.3.6.RELEASE-sources.jar!/org/springframework/security/oauth2/provider/endpoint/TokenEndpoint.java</url>
+          <line>79</line>
+          <option name="timeStamp" value="84" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/winfo-common/winfo-common-core/src/main/java/cc/winfo/common/core/exception/ExceptionHandlerAdvice.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="90" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/winfo-common/winfo-common-core/src/main/java/cc/winfo/common/core/exception/ExceptionHandlerAdvice.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="91" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-config/5.3.6.RELEASE/spring-security-config-5.3.6.RELEASE-sources.jar!/org/springframework/security/config/annotation/web/configuration/WebSecurityConfigurerAdapter.java</url>
+          <line>522</line>
+          <option name="timeStamp" value="94" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="((AnnotationConfigServletWebServerApplicationContext)((MessageSourceAccessor)((AnonymousAuthenticationProvider)providers.get(0)).messages).messageSource).applicationListeners" custom="org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext,org.springframework.context.support.MessageSourceAccessor,org.springframework.security.authentication.AnonymousAuthenticationProvider" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

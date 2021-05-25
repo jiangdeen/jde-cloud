@@ -1,0 +1,50 @@
+package com.rules.impor
+dialect "java"
+import cc.winfo.drools.bean.People
+import function cc.winfo.drools.utils.DroolsStringUtils.isEmpty
+
+
+function String hello(String applicantName) {
+    return "Hello " + applicantName + "!";
+}
+
+rule "impot"
+
+  when
+    $p : People(drlType == "impot")
+  then
+    System.out.println(isEmpty("我"));
+    System.out.println(hello("达"));
+  end
+  /** 左一
+    is this your 这个句型重复出现, it's isn't
+    it's = it is
+    isn't = is not
+
+    is this your pen?
+    Yes it's my pen.
+    No it isn't my pen.
+
+    Yes it's my pen.
+    No it isn't.
+    No it isn't my pen
+    Yes it's // 这种形式不被接受
+
+    1-15 全部缩写
+    suit: 西装
+    a new suit: 新西装
+    school: 学校,发音辅音连缀/k/
+    is this your school
+    Yes it's my school
+    teacher: 职位,不是称谓 Mr.
+
+    Is this your teacher?
+    No this isn't my teacher.
+
+    Is this your son?
+    Yes he's my son
+
+    Is this your daughter?
+    No this isn't my daughter
+
+  */

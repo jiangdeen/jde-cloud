@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>winfo-common</artifactId>
+        <groupId>cc.winfo</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>winfo-common-datasource</artifactId>
+    <description>datasource多数据源</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+        </dependency>
+
+        <!-- Druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- Dynamic DataSource -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- Pagehelper -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+</project>

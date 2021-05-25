@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="winfo-common-i18n" />
+        <module name="winfo-auth2-server" />
+        <module name="winfo-common-datasource" />
+        <module name="winfo-common-core" />
+        <module name="winfo-common-log-aop" />
+        <module name="winfo-oauth2-server" />
+        <module name="xxl-job-admin" />
+        <module name="winfo-common-redis" />
+        <module name="winfo-drools" />
+        <module name="winfo-common-quartz" />
+        <module name="winfo-common-swagger" />
+        <module name="winfo-common-executor" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="common-core" target="1.8" />
+      <module name="core" target="1.8" />
+      <module name="core-api" target="1.8" />
+      <module name="core-datasource" target="1.8" />
+      <module name="core-exception" target="1.8" />
+      <module name="core-log" target="1.8" />
+      <module name="core-nacos" target="1.8" />
+      <module name="core-redis" target="1.8" />
+      <module name="core-security" target="1.8" />
+      <module name="core-swagger" target="1.8" />
+      <module name="core-validator" target="1.8" />
+      <module name="log-aop" target="1.8" />
+      <module name="nacos" target="1.8" />
+      <module name="shiro-login" target="1.8" />
+      <module name="winfo-auth2-server" target="1.8" />
+      <module name="winfo-cloud" target="1.8" />
+      <module name="winfo-common" target="1.8" />
+      <module name="winfo-common-core" target="1.8" />
+      <module name="winfo-common-datasource" target="1.8" />
+      <module name="winfo-common-executor" target="1.8" />
+      <module name="winfo-common-i18n" target="1.8" />
+      <module name="winfo-common-log" target="1.8" />
+      <module name="winfo-common-log-aop" target="1.8" />
+      <module name="winfo-common-quartz" target="1.8" />
+      <module name="winfo-common-redis" target="1.8" />
+      <module name="winfo-common-swagger" target="1.8" />
+      <module name="winfo-drools" target="1.8" />
+      <module name="winfo-model" target="1.8" />
+      <module name="winfo-oauth2-server" target="1.8" />
+      <module name="winfo-security" target="1.8" />
+      <module name="winfo-shiro" target="1.8" />
+      <module name="winfo-system" target="1.8" />
+      <module name="xxl-job-admin" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="core-api" options="" />
+      <module name="core-exception" options="" />
+      <module name="core-log" options="" />
+      <module name="core-nacos" options="" />
+      <module name="core-security" options="" />
+      <module name="core-validator" options="" />
+      <module name="log-aop" options="" />
+      <module name="nacos" options="-parameters" />
+      <module name="winfo-cloud" options="" />
+    </option>
+  </component>
+</project>

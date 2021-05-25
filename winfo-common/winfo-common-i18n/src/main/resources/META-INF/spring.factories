@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cc.winfo.common.i18n.LocaleConfig
