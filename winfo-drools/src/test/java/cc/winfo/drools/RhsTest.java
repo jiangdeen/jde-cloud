@@ -31,7 +31,6 @@ class RhsTest {
 
     @Test
     public void update() {
-
         People people = new People();
         people.setName("达");
         people.setSex(0);
@@ -39,7 +38,7 @@ class RhsTest {
         people.setDrlType("update");
         session.insert(people);//插入
         session.fireAllRules();//执行规则
-        System.out.println("test执行====" + people.toString());
+        System.out.println("test执行====" + people);
     }
 
     @Test
