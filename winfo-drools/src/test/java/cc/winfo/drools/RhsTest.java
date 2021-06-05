@@ -84,7 +84,7 @@ class RhsTest {
     @Test
     public void declare() throws IllegalAccessException, InstantiationException {
 
-        FactType factType = kieBase.getFactType("com.ytooo.declar","Love");
+        FactType factType = kieBase.getFactType("cc.winfo.drools.declar","Love");
         Object obj = factType.newInstance();
         factType.set(obj,"feel","sad");
         factType.set(obj,"continued","永远");
