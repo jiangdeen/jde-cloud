@@ -5,7 +5,7 @@ package cc.winfo.common.core.api.enums;
  * @Version: 1.0
  */
 public enum AppHttpStatus {
-    OK(100000, "SUCCESS"),
+    OK(10000, "SUCCESS"),
 
     EXCEPTION(-1, "异常"),
     RUNTIME_EXCEPTION(100001, "运行时异常"),

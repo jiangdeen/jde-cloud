@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @Version: 1.0
  */
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = {"cc.winfo"})
 public class ResponseControllerAdvice implements ResponseBodyAdvice<Object> {
 
     @Override

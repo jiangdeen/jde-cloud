@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.winfo.model.demo.mapper.GpsInfoMapper" >
+
+  <sql id="Base_Column_List" >
+    IMEI, CONTENT, ADD_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultType="cc.winfo.model.demo.bean.GpsInfo" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from GPS_INFO
+    where IMEI = #{imei,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from GPS_INFO
+    where IMEI = #{imei,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cc.winfo.model.demo.bean.GpsInfo" >
+    insert into GPS_INFO (IMEI, CONTENT, ADD_DATE
+      )
+    values (#{imei,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{addDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cc.winfo.model.demo.bean.GpsInfo" >
+    insert into GPS_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="imei != null" >
+        IMEI,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="addDate != null" >
+        ADD_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="imei != null" >
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="addDate != null" >
+        #{addDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.winfo.model.demo.bean.GpsInfo" >
+    update GPS_INFO
+    <set >
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="addDate != null" >
+        ADD_DATE = #{addDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where IMEI = #{imei,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.winfo.model.demo.bean.GpsInfo" >
+    update GPS_INFO
+    set CONTENT = #{content,jdbcType=VARCHAR},
+      ADD_DATE = #{addDate,jdbcType=TIMESTAMP}
+    where IMEI = #{imei,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,8 +1,0 @@
-package cc.winfo.drools.quey
-dialect "java"
-
-import cc.winfo.drools.bean.People
-
-query "queryPeople" (String $name,Integer $sex)
-    $p : People(name == $name, sex == $sex)
-end

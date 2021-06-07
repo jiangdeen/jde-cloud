@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cc.winfo.common.swagger.config.SwaggerAutoConfiguration
+    cc.winfo.common.quartz.QuartzConfig

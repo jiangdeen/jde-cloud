@@ -1,6 +1,5 @@
 package cc.winfo.common.swagger.config;
 
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
