@@ -33,6 +33,69 @@ spring为我们定义了如下隔离级别:
 在Oracle数据库中只支持READ COMMITTED和SERIALIZABLE 这两种隔离级别。所以Oracle不支持脏读，即Oralce不允许一个会话读取其他事务未提交的数据修改结果，从而方式了由于事务回滚发生的读取不正确。
 ```
 
+#### 事务的7种传播性及示例：
+ - REQUIRED: 如果有事务则加入事务，如果没有事务，则创建一个新的（默认值）
+   ```java
+   public class demo{
+           //事务属性 PROPAGATION_REQUIRED 
+           methodA{ 
+           　　…… 
+           　　methodB(); 
+           　　…… 
+           }
+            
+           //事务属性 PROPAGATION_REQUIRED 
+           methodB{ 
+              …… 
+           }
+   }
+   ```
+    在调用methodB时，没有一个存在的事务，所以获得一个新的连接，开启了一个新的事务
+    调用MethodA时，环境中没有事务，所以开启一个新的事务.当在MethodA中调用MethodB时，环境中已经有了一个事务，所以 methodB就加入当前事务
+
+- SUPPORTS:  如果存在一个事务，支持当前事务。如果没有事务，则非事务的执行
+```java
+    //事务属性 PROPAGATION_REQUIRED 
+    methodA(){ 
+      methodB(); 
+    }
+     
+    //事务属性 PROPAGATION_SUPPORTS 
+    methodB(){ 
+      …… 
+    }
+```
+　单纯的调用methodB时，methodB方法是非事务的执行的。当调用methdA时,methodB则加入了methodA的事务中,事务地执行。
+
+- MANDATORY 如果已经存在一个事务，支持当前事务。如果没有一个活动的事务，则抛出异常
+```java
+    //事务属性 PROPAGATION_REQUIRED 
+    methodA(){ 
+        methodB(); 
+    }
+     
+    //事务属性 PROPAGATION_MANDATORY 
+    methodB(){ 
+        …… 
+    }
+```
+当单独调用methodB时，因为当前没有一个活动的事务，则会抛出异常throw new IllegalTransactionStateException(“Transaction propagation ‘mandatory’ but no existing transaction found”);当调用methodA时，methodB则加入到methodA的事务中，事务地执行。
+
+- REQUIRES_NEW 总是开启一个新的事务。如果一个事务已经存在，则将这个存在的事务挂起。   
+```java
+    //事务属性 PROPAGATION_REQUIRED 
+    methodA(){ 
+       doSomeThingA(); 
+       methodB(); 
+       doSomeThingB(); 
+    }
+     
+    //事务属性 PROPAGATION_REQUIRES_NEW 
+    methodB(){ 
+       …… 
+    }
+```
+
 #### spring事务管理的API
 
 * PlatformTransactionManager (平台) 事务管理器 
@@ -161,8 +224,6 @@ public interface SavepointManager {
 
 }
 ```
-
-
 
 ### 使用方式
 
@@ -326,20 +387,591 @@ public class ExceptionHandlerAdvice {
 ```
 
 ```wiki
-加入了这个依赖之后上述问题就自行解决了
+加入了这个依赖之Web异常处理就会自动生效.
 ```
-
-
 
 ## 系统日志
 
 ### logAspect
 
+#### 概念
+
+在日常开发中日志是必不可少的,除了我们常用的服务日志以外,一般还需要接口调用日志,接口调用日志可以方便我们定位问题,查看请求记录等.
+
+在本项目中定义了log注解,用来切入需要记录日志的接口,log标签可以注解在方法上,log注解定义四个属性域,分别用来保存模块名称,功能,操作人类别,是否保存参数.
+
+```java
+**
+ * @Author: winfo-jiangde
+ * @Description:
+ * @Date: 2021/4/26 10:09
+ * @Version: 1.0
+ */
+@Target({ ElementType.PARAMETER, ElementType.METHOD })
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+ public @interface Log {
+    /**
+     * 模块
+     */
+     String title() default "";
+
+    /**
+     * 功能
+     */
+     BusinessType businessType() default BusinessType.OTHER;
+
+    /**
+     * 操作人类别
+     */
+     OperatorType operatorType() default OperatorType.MANAGE;
+
+    /**
+     * 是否保存请求的参数
+     */
+     boolean isSaveRequestData() default true;
+}
+```
+
+然后配置一个织入点
+
+```java
+// 配置织入点
+@Pointcut("@annotation(cc.winfo.common.log.annotation.Log)")
+public void logPointCut() {
+}
+```
+
+@AfterReturning 在请求处理完成后,会进入织入点,执行切面中的方法,如果需要在目标方法执行前进入织入点则需要用@Before,如果方法执行前后都需要进行某种操作可用@Around 注解进行操作
+
+```java
+/**
+ * 处理完请求后执行
+ *
+ * @param joinPoint 切点
+ */
+@AfterReturning(pointcut = "logPointCut()", returning = "jsonResult")
+public void doAfterReturning(JoinPoint joinPoint, Object jsonResult) {
+    handleLog(joinPoint, null, jsonResult);
+}
+```
+
+请求之后的处理方法就是,获取请求的地址,请求的ip,请求的模块等信息保存到数据库中,如果发生异常,也会把异常信息保存到数据库
+
+```java
+protected void handleLog(final JoinPoint joinPoint, final Exception e, Object jsonResult) {
+    try {
+        // 获得注解
+        Log controllerLog = getAnnotationLog(joinPoint);
+        if (controllerLog == null) {
+            return;
+        }
+
+        // *========数据库日志=========*//
+        SysOperLog operLog = new SysOperLog();
+        operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
+        // 请求的地址
+        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        operLog.setOperIp(ip);
+        // 返回参数
+        operLog.setJsonResult(JSON.toJSONString(jsonResult));
+
+        operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
+        String username = null;
+        if (StringUtils.isNotBlank(username)) {
+            operLog.setOperName(username);
+        }
+
+        if (e != null) {
+            operLog.setStatus(BusinessStatus.FAIL.ordinal());
+            operLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 2000));
+        }
+        // 设置方法名称
+        String className = joinPoint.getTarget().getClass().getName();
+        String methodName = joinPoint.getSignature().getName();
+        operLog.setMethod(className + "." + methodName + "()");
+        // 设置请求方式
+        operLog.setRequestMethod(ServletUtils.getRequest().getMethod());
+        // 处理设置注解上的参数
+        getControllerMethodDescription(joinPoint, controllerLog, operLog);
+        // 保存数据库
+        asyncLogService.saveSysLog(operLog);
+    } catch (Exception exp) {
+        // 记录本地异常日志
+        log.error("==前置通知异常==");
+        log.error("异常信息:{}", exp.getMessage());
+        exp.printStackTrace();
+    }
+}
+```
+
+![image-20210609115157621](E:\jde-work\winfo-cloud\image\image-20210609115157621.png)
+
+
+
+#### 使用
+
+引入依赖
+
+```xml
+<dependency>
+    <groupId>cc.winfo</groupId>
+    <artifactId>winfo-common-log-aop</artifactId>
+</dependency>
+```
+
+在需要记录日志的地方加入@Log注解就可以了
+
+```java
+@Log(title = "参数管理", businessType = BusinessType.INSERT)
+@ApiOperation("事务隔离级别")
+@PostMapping("/demo")
+public String addDemo(@RequestBody Demo demo) {
+    return transactionalService.addDemo(demo);
+}
+```
+
 ## 数据权限
 
 ### shiro
 
+#### 概述
+
+Apache Shiro是一个功能强大且易于使用的Java安全框架，进行身份验证，授权，加密和会话管理，可用于保护任何应用程序 - 从命令行应用程序，移动应用程序到大型的Web应用和企业应用。
+
+Shiro可以帮助我们完成：
+
+- 身份验证 - 证明用户身份，通常称为用户“登录”。
+- 授权 - 访问控制
+- 加密 - 保护隐藏数据
+- 会话管理 - 每个用户对时间敏感的状态
+
+此外，Shiro还支持一些辅助功能，例如web应用的支持，单元测试、缓存和多线程支持等，而且Shiro的API也是非常简单；其基本功能点如下图所示：
+
+![img](E:\jde-work\winfo-cloud\image\649729-20160428153225830-1522605657.png)
+
+在这里对各个名字进行简单的解释:
+
+**Authentication**：身份认证/登录，验证用户是不是拥有相应的身份；
+
+**Authorization**：授权，即权限验证，验证某个已认证的用户是否拥有某个权限；即判断用户是否能做事情，常见的如：验证某个用户是否拥有某个角色。或者细粒度的验证某个用户对某个资源是否具有某个权限；
+
+**Session Management**：会话管理，即用户登录后就是一次会话，在没有退出之前，它的所有信息都在会话中；会话可以是普通JavaSE环境的，也可以是如Web环境的；
+
+**Cryptography**：加密，保护数据的安全性，如密码加密存储到数据库，而不是明文存储；
+
+**Web Support**：Web支持，可以非常容易的集成到Web环境；
+
+**Caching**：缓存，比如用户登录后，其用户信息、拥有的角色/权限不必每次去查，这样可以提高效率；
+
+**Concurrency**：shiro支持多线程应用的并发验证，即如在一个线程中开启另一个线程，能把权限自动传播过去；
+
+**Testing**：提供测试支持；
+
+**Run As**：允许一个用户假装为另一个用户（如果他们允许）的身份进行访问；
+
+**Remember Me**：记住我，这个是非常常见的功能，即一次登录后，下次再来的话不用登录了。
+
+
+
+**1）Subject：**认证主体
+
+代表当前系统的使用者，就是用户，在Shiro的认证中，认证主体通常就是userName和passWord，或者其他用户相关的唯一标识。
+
+**2）SecurityManager：**安全管理器
+
+Shiro架构中最核心的组件，通过它可以协调其他组件完成用户认证和授权。实际上，SecurityManager就是Shiro框架的控制器。
+
+**3）Realm：**域对象
+
+定义了访问数据的方式，用来连接不同的数据源，如：关系数据库，配置文件等等。
+
+#### shiro项目的搭建
+
+引入依赖
+
+```xml
+
+<dependency>
+    <groupId>cc.winfo</groupId>
+    <artifactId>winfo-common-redis</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>cc.winfo</groupId>
+    <artifactId>winfo-common-core</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>cc.winfo</groupId>
+    <artifactId>winfo-common-datasource</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>cc.winfo</groupId>
+    <artifactId>winfo-common-swagger</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>cc.winfo</groupId>
+    <artifactId>winfo-common-log-aop</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>cc.winfo</groupId>
+    <artifactId>winfo-common-i18n</artifactId>
+</dependency>
+
+
+<dependency>
+    <groupId>org.apache.shiro</groupId>
+    <artifactId>shiro-spring</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+Shiro核心配置
+
+```java
+/**
+ * Shiro 配置文件
+ */
+@Configuration
+public class ShiroConfig {
+    /**
+     * Session Manager：会话管理
+     * 即用户登录后就是一次会话，在没有退出之前，它的所有信息都在会话中；
+     * 会话可以是普通JavaSE环境的，也可以是如Web环境的；
+     */
+    @Bean("sessionManager")
+    public SessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        //设置session过期时间
+        sessionManager.setGlobalSessionTimeout(60 * 60 * 1000);
+        sessionManager.setSessionValidationSchedulerEnabled(true);
+        // 去掉shiro登录时url里的JSESSIONID
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
+        return sessionManager;
+    }
+
+    /**
+     * SecurityManager：安全管理器
+     */
+    @Bean("securityManager")
+    public SecurityManager securityManager(UserRealm userRealm, SessionManager sessionManager) {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setSessionManager(sessionManager);
+        securityManager.setRealm(userRealm);
+        return securityManager;
+    }
+
+    /**
+     * ShiroFilter是整个Shiro的入口点，用于拦截需要安全控制的请求进行处理
+     */
+    @Bean("shiroFilter")
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
+        ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
+        shiroFilter.setSecurityManager(securityManager);
+        shiroFilter.setLoginUrl("/userLogin");
+        shiroFilter.setUnauthorizedUrl("/");
+        Map<String, String> filterMap = new LinkedHashMap<>();
+        filterMap.put("/userLogin", "anon");
+        shiroFilter.setFilterChainDefinitionMap(filterMap);
+        return shiroFilter;
+    }
+
+    /**
+     * 管理Shiro中一些bean的生命周期
+     */
+    @Bean("lifecycleBeanPostProcessor")
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
+    }
+
+    /**
+     * 扫描上下文，寻找所有的Advistor(通知器）
+     * 将这些Advisor应用到所有符合切入点的Bean中。
+     */
+    @Bean
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
+        proxyCreator.setProxyTargetClass(true);
+        return proxyCreator;
+    }
+
+    /**
+     * 匹配所有加了 Shiro 认证注解的方法
+     */
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
+        advisor.setSecurityManager(securityManager);
+        return advisor;
+    }
+}
+```
+
+域对象配置
+
+```java
+/**
+ * Shiro 认证实体
+ */
+@Component
+public class UserRealm extends AuthorizingRealm {
+
+    @Autowired
+    private SysLoginMapper sysLoginMapper;
+
+    @Autowired
+    private SysPermissionMapper sysPermissionMapper;
+
+    /**
+     * 授权(验证权限时调用)
+     * 获取用户权限集合
+     */
+    @Override
+    public AuthorizationInfo doGetAuthorizationInfo
+    (PrincipalCollection principals) {
+        SysLogin user = (SysLogin) principals.getPrimaryPrincipal();
+        if (user == null) {
+            throw new UnknownAccountException("账号不存在");
+        }
+        List<String> permsList;
+        // 默认用户拥有最高权限
+        List<SysPermission> menuList = sysPermissionMapper.getSysPermission();
+        permsList = new ArrayList<>(menuList.size());
+        for (SysPermission menu : menuList) {
+            permsList.add(menu.getPerms());
+        }
+        // 用户权限列表
+        Set<String> permsSet = new HashSet<>();
+        for (String perms : permsList) {
+            if (StringUtils.isEmpty(perms)) {
+                continue;
+            }
+            permsSet.addAll(Arrays.asList(perms.trim().split(",")));
+        }
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        info.setStringPermissions(permsSet);
+        return info;
+    }
+
+    /**
+     * 认证(登录时调用)
+     * 验证用户登录
+     */
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(
+            AuthenticationToken authToken) throws AuthenticationException {
+        UsernamePasswordToken token = (UsernamePasswordToken) authToken;
+        //查询用户信息
+        SysLogin user = sysLoginMapper.getUserByName(token.getUsername());
+        //账号不存在
+        if (user == null) {
+            throw new UnknownAccountException("账号或密码不正确");
+        }
+        //账号锁定
+        if (user.getDisAble().intValue() == 0) {
+            throw new LockedAccountException("账号已被锁定,请联系管理员");
+        }
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo
+                (user, user.getPassword(),
+                        ByteSource.Util.bytes(user.getUsername()),
+                        getName());
+        return info;
+    }
+
+    @Override
+    public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
+        HashedCredentialsMatcher shaCredentialsMatcher = new HashedCredentialsMatcher();
+        shaCredentialsMatcher.setHashAlgorithmName(ShiroUtils.hashAlgorithmName);
+        shaCredentialsMatcher.setHashIterations(ShiroUtils.hashIterations);
+        super.setCredentialsMatcher(shaCredentialsMatcher);
+    }
+```
+
+核心工具类
+
+```java
+
+/**
+ * Shiro工具类
+ */
+public class ShiroUtils {
+    /**  加密算法 */
+    public final static String hashAlgorithmName = "SHA-256";
+    /**  循环次数 */
+    public final static int hashIterations = 16;
+
+    public static String sha256(String password, String salt) {
+        return new SimpleHash(hashAlgorithmName, password, salt, hashIterations).toString();
+    }
+
+    // 获取一个测试账号 admin
+    public static void main(String[] args) {
+        // 3743a4c09a17e6f2829febd09ca54e627810001cf255ddcae9dabd288a949c4a
+        System.out.println(sha256("admin","123")) ;
+        String hashAlgorithmName = "SHA-256";
+        String credentials = "123456";
+        Object obj = new SimpleHash(hashAlgorithmName, credentials, "jiangdeen", 16);
+        System.out.println(obj);
+    }
+
+
+    /**
+     * 获取会话
+     */
+    public static Session getSession() {
+        return SecurityUtils.getSubject().getSession();
+    }
+    
+    /**
+     * Subject：主体，代表了当前“用户”
+     */
+    public static Subject getSubject() {
+        return SecurityUtils.getSubject();
+    }
+
+    public static SysLogin getUserEntity() {
+        return (SysLogin)SecurityUtils.getSubject().getPrincipal();
+    }
+
+    public static String getUserId() {
+        return getUserEntity().getUsername();
+    }
+
+    public static void setSessionAttribute(Object key, Object value) {
+        getSession().setAttribute(key, value);
+    }
+
+    public static Object getSessionAttribute(Object key) {
+        return getSession().getAttribute(key);
+    }
+
+    public static boolean isLogin() {
+        return SecurityUtils.getSubject().getPrincipal() != null;
+    }
+
+    public static void logout() {
+        SecurityUtils.getSubject().logout();
+    }
+```
+
+数据库表
+
+![image-20210610105836415](E:\jde-work\winfo-cloud\image\image-20210610105836415.png)
+
+controller接口,登录登出:
+
+```java
+/**
+ * Shrio 测试方法控制层
+ */
+@RestController
+@RequestMapping("/login")
+public class ShiroController {
+    private static Logger LOGGER = LoggerFactory.getLogger(ShiroController.class);
+
+    @Resource
+    private SysPermissionMapper sysPermissionMapper;
+
+    /**
+     * 登录测试
+     * http://localhost:7011/userLogin?userName=admin&passWord=admin
+     */
+    @RequestMapping("/userLogin")
+    public String userLogin(
+            @RequestParam(value = "userName") String userName,
+            @RequestParam(value = "passWord") String passWord) {
+        try {
+            Subject subject = ShiroUtils.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(userName, passWord);
+            subject.login(token);
+            LOGGER.info("登录成功");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "登录成功";
+    }
+
+    /**
+     * 服务器每次重启请求该接口之前必须先请求上面登录接口
+     * http://localhost:7011/menu/list 获取所有菜单列表
+     * 权限要求：sys:user:shiro
+     */
+    @RequestMapping("/menu/list")
+    @RequiresPermissions("sys:user:shiro")
+    public List list() {
+        return sysPermissionMapper.getSysPermission();
+    }
+
+    /**
+     * 用户没有该权限，无法访问
+     * 权限要求：ccc:ddd:bbb
+     */
+    @RequestMapping("/menu/list2")
+    @RequiresPermissions("ccc:ddd:bbb")
+    public List list2() {
+        return sysPermissionMapper.getSysPermission();
+    }
+
+    /**
+     * 退出测试
+     */
+    @RequestMapping("/userLogOut")
+    public String logout() {
+        ShiroUtils.logout();
+        return "success";
+    }
+}
+```
+
+![image-20210610110134359](E:\jde-work\winfo-cloud\image\image-20210610110134359.png)
+
+访问有数权限接口
+
+![image-20210610110300179](E:\jde-work\winfo-cloud\image\image-20210610110300179.png)
+
+```json
+{
+  "code": 10000,
+  "msg": "SUCCESS",
+  "data": [
+    {
+      "id": "1",
+      "pid": "0",
+      "name": "权限菜单",
+      "url": "/role",
+      "perms": "user:list,user:create,sys:user:shiro",
+      "type": "1",
+      "icon": null,
+      "orderNum": 1
+    }
+  ]
+}
+```
+
+访问无数据权限接口
+
+![image-20210610110417190](E:\jde-work\winfo-cloud\image\image-20210610110417190.png)
+
+```json
+{
+  "code": -1,
+  "msg": "Subject does not have permission [ccc:ddd:bbb]",
+  "data": null
+}
+```
+
 ### spring-security
+
+
 
 ## 多数据源
 
@@ -753,3 +1385,215 @@ who_am_i=jiangden
 ## 规则引擎
 
 ### Drools
+
+#### 概念
+
+Drools 是一个基于Charles Forgy’s的RETE算法的，易于访问企业策略、易于调整以及易于管理的开源业务规则引擎，符合业内标准，速度快、效率高。
+
+业务分析师人员或审核人员可以利用它轻松查看业务规则，从而检验是否已编码的规则执行了所需的业务规则。
+
+Drools 是用Java语言编写的开放源码规则引擎，使用Rete算法对所编写的规则求值。
+
+Drools允许使用声明方式表达业务逻辑。可以使用非XML的本地语言编写规则，从而便于学习和理解。
+
+并且，还可以将Java代码直接嵌入到规则文件中，这令Drools的学习更加吸引人。
+
+- 事实（Fact）：对象之间及对象属性之间的关系
+- 规则（rule）：是由条件和结论构成的推理语句，一般表示为if…Then。一个规则的if部分称为LHS，then部分称为RHS。
+- 模式（module）：就是指IF语句的条件。这里IF条件可能是有几个更小的条件组成的大条件。模式就是指的不能在继续分割下去的最小的原子条件。
+
+Drools通过事实、规则和模式相互组合来完成工作，drools在开源规则引擎中使用率最广，但是在国内企业使用偏少，保险、支付行业使用稍多。
+
+在本项目中我只是搭建了一个drools demo,通过运行和打印的结果来找他们直接段关系和语法规则.
+
+#### 使用
+
+引入依赖
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.drools/drools-core -->
+<dependency>
+    <groupId>org.drools</groupId>
+    <artifactId>drools-core</artifactId>
+    <drools>6.5.0.Final</drools>
+</dependency>
+
+<dependency>
+    <groupId>org.drools</groupId>
+    <artifactId>drools-compiler</artifactId>
+    <drools>6.5.0.Final</drools>
+</dependency>
+```
+
+```java
+/**
+ * Created by Youdmeng on 2020/1/7 0007.
+ */
+@Configuration
+public class KiaSessionConfig {
+
+    private static final String RULES_PATH = "rules/";
+
+    @Bean
+    public KieFileSystem kieFileSystem() throws IOException {
+        KieFileSystem kieFileSystem = getKieServices().newKieFileSystem();
+        for (Resource file : getRuleFiles()) {
+            kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_PATH + file.getFilename(), "UTF-8"));
+        }
+        return kieFileSystem;
+    }
+
+    private Resource[] getRuleFiles() throws IOException {
+
+        ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+        final Resource[] resources = resourcePatternResolver.getResources("classpath*:" + RULES_PATH + "**/*.*");
+        return resources;
+
+    }
+
+    @Bean
+    public KieContainer kieContainer() throws IOException {
+
+        final KieRepository kieRepository = getKieServices().getRepository();
+        kieRepository.addKieModule(() -> kieRepository.getDefaultReleaseId());
+
+        KieBuilder kieBuilder = getKieServices().newKieBuilder(kieFileSystem());
+        kieBuilder.buildAll();
+        return getKieServices().newKieContainer(kieRepository.getDefaultReleaseId());
+
+    }
+
+    private KieServices getKieServices() {
+        return KieServices.Factory.get();
+    }
+
+
+    @Bean
+    public KieBase kieBase() throws IOException {
+        return kieContainer().getKieBase();
+    }
+
+    @Bean
+    public KieSession kieSession() throws IOException {
+        return kieContainer().newKieSession();
+    }
+}
+```
+
+​	![image-20210607175338500](E:\jde-work\winfo-cloud\image\image-20210607175338500.png)
+
+drl文件解析:
+
+```java
+package cc.winfo.drools.collt
+dialect "java"
+import cc.winfo.drools.bean.Sensor
+import cc.winfo.drools.bean.People
+import java.util.List
+
+rule "accumulate"
+     no-loop false
+  when
+    $avg : Number() from accumulate(Sensor(temp >= 5 && $temp : temp),average($temp))
+  then
+    System.out.println("accumulate成功执行，平均温度为：" + $avg);
+end
+
+rule "diyaccumulate"
+    when
+        People(drlType == "diyaccumulate")
+        $avg: Number() from accumulate(People($age: age,drlType == "diyaccumulate"),
+        init(int $total = 0, $count = 0;),
+        action($total += $age; $count++;),
+        result($total/$count))
+
+    then
+        System.out.println("Avg: " + $avg);
+end
+```
+
+package: 是一系列 rule 的一个命名空间，这个空间中所有的`rule` 名字都是唯一的,package-name命名必须遵守java命名规范.
+
+Drools 文件中的 import 语句和 Java 的 `import` 语句类似，引入指定对象的路径及全称
+
+一个规则通常包括三个部分：
+
+```java
+rule "name"
+    attributes
+    when
+        LHS
+    then
+        RHS
+end
+```
+
+- 属性部分（attribute），非必须，最好写在一行，关于**规则属性**部分，
+- 条件部分（LHS） 定义当前规则的条件，如 when Message(); 判断当前workingMemory中是否存在Message对象。
+- 结果部分（RHS） 即当前规则条件满足后执行的操作，可以直接调用Fact对象的方法来操作应用。这里可以写普通java代码
+
+**属性部分:**
+
+​	**no-loop：** `定义当前的规则是否不允许多次循环执行，默认是false`
+
+​    **lock-on-active:**  lock-on-active true 通过这个标签，可以控制当前的规则只会被执行一次，因为一个规则的重复执行不一定是本身触发的，也可能是其他规则触发的，所以这个是no-loop的加强版.
+
+   **date-expires：**设置规则的过期时间，默认的时间格式：“日-月-年”
+
+   **date-effective**：设置规则的生效时间，时间格式同上。
+
+   **duration**：规则定时，duration 3000，3秒后执行规则
+
+   **salience**：优先级，数值越大越先执行，这个可以控制规则的执行顺序。
+
+**条件部分:**
+
+​	**when**：规则条件开始。条件可以单个，也可以多个，多个条件一次排列
+
+   **操作符**：`>`、`>=`、`<`、`<=`、`==`、`!=`、`contains`、`not contains`、`memberOf`、`not memberOf`、`matches`、`not matches`
+
+​	**memberOf：**判断某个Fact属性值是否在某个集合中，与contains不同的是他被比较的对象是一个集合，而contains被比较的对象是单个值或者对象
+
+​	**matches**：正则表达式匹配
+
+**结果部分:**
+
+​	当规则条件满足，则进入规则结果部分执行，结果部分可以是纯java代码
+
+前面简单的我就不多做介绍了,现在以一个规则为例,介绍一下drools 语法
+
+```java
+ 	@Test
+    public void people() {
+        People people = new People();
+        people.setName("达");
+        people.setSex(1);
+        people.setDrlType("people");
+        session.insert(people);//插入
+        session.fireAllRules();//执行规则
+    }
+
+
+rule "man"
+    when
+        $p : People(sex == 1 && drlType == "people")
+    then
+        System.out.println($p.getName() + "是男孩");
+end
+
+
+rule "accumulate"
+     no-loop false
+  when
+    $avg : Number() from accumulate(Sensor(temp >= 5 && $temp : temp),average($temp))
+  then
+    System.out.println("accumulate成功执行，平均温度为：" + $avg);
+end
+/**
+*  Accumulate 是一种更灵活和更强大的collect，在某种意义上他提供了不仅可以实现collect的功能还提供了额外的功能。Accumulate允*	许规则迭代对象集合，为每个元素执行自定义操作，最后返回结果对象。
+*  accumulate 操作的对象可以是一个集合,Sensor类中 temp属性大于等于5的把temp赋值给$temp,average就是求$temp的平均值,然后赋*  值给$avg,这个其实不是一个条件,运行任何规则都会打印出平均温度.
+*/
+```
+
+![image-20210609100534858](E:\jde-work\winfo-cloud\image\image-20210609100534858.png)
+

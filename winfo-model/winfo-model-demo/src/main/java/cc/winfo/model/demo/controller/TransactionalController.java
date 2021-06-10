@@ -1,5 +1,7 @@
 package cc.winfo.model.demo.controller;
 
+import cc.winfo.common.log.annotation.Log;
+import cc.winfo.common.log.entity.BusinessType;
 import cc.winfo.model.demo.bean.Demo;
 import cc.winfo.model.demo.service.TransactionalService;
 import io.swagger.annotations.Api;
@@ -21,6 +23,7 @@ public class TransactionalController {
     private TransactionalService transactionalService;
 
 
+//    @Log(title = "参数管理", businessType = BusinessType.INSERT)
     @ApiOperation("事务隔离级别")
     @PostMapping("/demo")
     public String addDemo(@RequestBody Demo demo) {

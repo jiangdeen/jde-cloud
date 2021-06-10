@@ -3,7 +3,7 @@
 <mapper namespace="cc.winfo.model.demo.mapper.DemoMapper">
 
     <insert id="addDemo">
-        insert into demo_a (id,name) values (#{id},#{name})
+        insert into demo_aw (id,name) values (#{id},#{name})
     </insert>
     <update id="updateDemo">
         update demo_a set name =#{name} where id =#{id}

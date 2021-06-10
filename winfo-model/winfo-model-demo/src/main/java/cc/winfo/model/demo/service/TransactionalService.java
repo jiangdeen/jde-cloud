@@ -25,11 +25,11 @@ public class TransactionalService {
     public String addDemo(Demo demo) {
 
         demoMapper.addDemo(demo);
-        GpsInfo gpsInfo = new GpsInfo();
-        gpsInfo.setImei("19950816");
-        gpsInfo.setContent("这个是内容!");
-        gpsInfo.setAddDate(new Date());
-        gpsInfoMapper.insertSelective(gpsInfo);
+//        GpsInfo gpsInfo = new GpsInfo();
+//        gpsInfo.setImei("19950816");
+//        gpsInfo.setContent("这个是内容!");
+//        gpsInfo.setAddDate(new Date());
+//        gpsInfoMapper.insertSelective(gpsInfo);
         return "我想去前线";
     }
 

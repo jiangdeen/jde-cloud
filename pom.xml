@@ -309,6 +309,7 @@
         <module>winfo-oauth2-server</module>
         <module>winfo-xxl-job-admin</module>
         <module>winfo-drools</module>
+        <module>winfo-shiro-auth</module>
     </modules>
 
     <dependencies>
@@ -328,6 +329,9 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArguments>
+                        <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
+                    </compilerArguments>
                 </configuration>
             </plugin>
         </plugins>

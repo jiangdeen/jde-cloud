@@ -15,8 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 
-//@SpringBootTest
-//@RunWith(SpringRunner.class)
+@SpringBootTest
+@RunWith(SpringRunner.class)
 class DroolsApplicationTests {
 
     @Autowired
@@ -24,7 +24,6 @@ class DroolsApplicationTests {
 
     @Test
     public void people() {
-
         People people = new People();
         people.setName("达");
         people.setSex(1);

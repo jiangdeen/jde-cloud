@@ -1,6 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cc.winfo.common.core.aspect.resp.ResponseControllerAdvice ,\
-  cc.winfo.common.core.exception.validator.BindExceptionHandler,\
-  cc.winfo.common.core.exception.ExceptionHandlerAdvice \
+  cc.winfo.common.core.handler.validator.BindExceptionHandler,\
+  cc.winfo.common.core.handler.GlobalExceptionHandler,\
+  cc.winfo.common.core.handler.ResponseControllerHandler \
   
   
